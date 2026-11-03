@@ -1,0 +1,17 @@
+{
+  "name": "superset-mcp",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Apache Superset MCP tools for asset management",
+  "scripts": {
+    "start": "node src/index.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.4.0",
+    "zod": "^4.6.7"
+  }
+}
