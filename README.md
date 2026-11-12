@@ -2,6 +2,30 @@
 
 MCP server for managing Superset dashboards, charts, and datasets through the Superset REST API. All operations use the connected Superset user's permissions and owner identity.
 
+## Instructions for installing AI agents
+
+After installing and registering this MCP server, check whether credentials or an API token are configured. If not, ask the user for the Superset URL, username and password, explain that the local configuration stores the password as plaintext and that chat/tool history may retain it, then save and verify the credentials using `configure_credentials`. If this MCP tool is unavailable in the current session, follow the fallback instructions in `AGENTS.md`. Continue the original user request after successful login. Do not print credentials. A client may not automatically follow these instructions, so this is not a universal enforcement mechanism.
+
+## First-time setup for AI agents
+
+Run the setup command from this folder after installing Node.js 20 or newer:
+
+- Windows: `powershell -ExecutionPolicy Bypass -File .\setup.ps1`
+- macOS or Linux: `node setup.mjs`
+
+Setup asks for the Superset URL and credentials before installing dependencies. The password is hidden while typing and saved as plaintext in the local ignored `env.json`. This script does not verify the credentials; use the MCP tool `configure_credentials` to save and verify them through chat, or call a read tool after setup.
+
+For Claude Desktop, Antigravity, and other local MCP clients, add this entry to the client's existing `mcpServers` object using the absolute path to `src/index.mjs`:
+
+```json
+"superset": {
+  "command": "node",
+  "args": ["C:\\path\\to\\superset-mcp\\src\\index.mjs"]
+}
+```
+
+For macOS and Linux, use a Unix path such as `/home/yourname/superset-mcp/src/index.mjs` (or `/Users/yourname/...` on macOS) in `args`. In Claude Desktop, edit `%APPDATA%\Claude\claude_desktop_config.json` on Windows or `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS. In Antigravity, open the MCP configuration from its MCP Servers settings and add the entry there. Restart the client after changing its configuration. The server provides setup instructions to clients, but whether an agent asks automatically depends on the client. Ask it to call `get_connection_status` and `configure_credentials` when needed. An environment variable such as `SUPERSET_URL` takes precedence over the saved file.
+
 ## Sign-in & Credentials
 
 Credentials can be supplied via environment variables or stored locally in `env.json` (or `config.json`).
